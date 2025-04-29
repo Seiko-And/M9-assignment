@@ -5,5 +5,6 @@ export async function initEmployees() {
         return dataEmployees
     } catch (error) {
         console.error(error);
+        return [];
     }    
 }
