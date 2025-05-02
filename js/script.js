@@ -1,12 +1,32 @@
+import { initEmployees } from './modules/init.js';
+
 // CREATE AN ARRAY OF EMPLOYEES
-import { initEmployees } from "./modules/init.js";
+let arrEmployees = [
+    [34123413, "Zak Ruvalcaba", 3424, "zak@vectacorp.com", "Executive"],
+    [23424665, "Sally Smith", 2344, "sally@vectacorp.com", "Administrative"],
+    [12341244, "Mark Martin", 5352, "mark@vectacorp.com", "Sales"],
+    [14545423, "Robin Banks", 7867, "robin@vectacorp.com", "Marketing"],
+    [13413453, "Sue Wedge", 1235, "sue@vectacorp.com", "QA"]
+]
+// CONVER THE ARRAYS INTO OBJECT
+let employeesData = arrEmployees.map(value =>({
+    id: value[0],
+    name: value[1],
+    ext: value[2],
+    email: value[3],
+    department: value[4]
+}));
+
+// CONVERT TO JSON
+let employeeJson =  JSON.stringify(employeesData, null, 4);
+// console.log(employeeJson); // Copied and pasted it in employees.json
 
 // GET DOM ELEMENTS
 let empTable    = document.querySelector('#employees')
 let empCount    = document.querySelector('#empCount')
 
 // BUILD THE EMPLOYEES TABLE WHEN THE PAGE LOADS
-document.addEventListener('DOMContentLoaded', buildGrid);
+buildGrid();
 
 // DELETE EMPLOYEE
 empTable.addEventListener('click', (e) => {
@@ -23,14 +43,17 @@ empTable.addEventListener('click', (e) => {
 
 // BUILD THE EMPLOYEES GRID
 async function buildGrid() {
+  
     try {
         const employees = await initEmployees();
+
+        // CONVERT TO ARRAY
+        // let employees = JSON.parse(employeeJson);
+        // console.log(employees);
         // REMOVE THE EXISTING SET OF ROWS BY REMOVING THE ENTIRE TBODY SECTION
         empTable.lastElementChild.remove()
         // REBUILD THE TBODY FROM SCRATCH
         let tbody = document.createElement('tbody')
-
-        
         // LOOP THROUGH THE ARRAY OF EMPLOYEES
         // REBUILDING THE ROW STRUCTURE
         for (let employee of employees) {
@@ -50,8 +73,9 @@ async function buildGrid() {
         empTable.appendChild(tbody)
         // UPDATE EMPLOYEE COUNT
         empCount.value = `(${employees.length})`
+        
     } catch (error) {
         console.error(error);
     }
-
+   
 }
