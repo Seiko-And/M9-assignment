@@ -7,4 +7,4 @@ async function initEmployees() {
         console.error(error);
     }    
 }
-export { initEmployees};
+export { initEmployees };
